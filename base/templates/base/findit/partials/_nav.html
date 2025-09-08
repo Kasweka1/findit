@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-md navbar-light default">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'landing' %}">
+            <!-- <img src="assets/images/logo-dark.svg" alt="logo" /> -->
+            <h2>FindIt</h2>
+        </a>
+        <button class="navbar-toggler rounded" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-start">
+                <li class="nav-item px-1">
+                    <a class="nav-link" href="{% url 'landing' %}">Home</a>
+                </li>
+                <li class="nav-item px-1">
+                    <a class="nav-link" href="{% url 'lost_found' %}">Lost &
+                        Found</a>
+                </li>
+                <li class="nav-item px-1">
+                    <a class="nav-link" href="{% url 'post_item' %}">Post an
+                        Item</a>
+                </li>
+                <li class="nav-item px-1">
+                    <a class="nav-link" href="{% url 'about_us' %}">About Us</a>
+                </li>
+                <li class="nav-item px-1">
+                    <a class="nav-link" href="{% url 'contact' %}">Contact
+                        Us</a>
+                </li>
+
+
+
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="btn btn-success dropdown-toggle d-flex align-items-center" href="#" id="userDropdown"
+                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Hi {{user.first_name}}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="userDropdown">
+                        <li>
+                            <a class="dropdown-item" href="{% url 'account' %}">
+                                <i class="fas fa-user"></i>View Account
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{% url 'logout' %}">
+                                <i class="fas fa-sign-out-alt"></i>Logout
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="btn btn btn-success" href="{% url 'login' %}">Sign
+                        in/Register </i></a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

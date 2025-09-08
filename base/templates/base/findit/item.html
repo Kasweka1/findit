@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}FindIt{% endblock title %}
+
+{% block body_class %}component-page{% endblock %}
+{% block content %}
+{% include "base/findit/partials/_nav.html" %}
+
+
+<section class="component-block">
+
+    <div class="container">
+        <div class="col-md-6 col-xl-12">
+            <div class="card social-widget-card bg-dark">
+                <div class="card-body">
+                    <h3 class="text-white m-0">Pixel 6a</h3>
+                    <span class="m-t-10">Shopright-EastPark Mall</span>
+                    <i class="fas fa-box-open"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+
+
+                            <div class="col-md-6">
+                                <div class="sticky-md-top product-sticky">
+                                    <div class="card bg-light rounded shadow-sm">
+                                        <div class="card-body position-relative p-0">
+
+
+                                            <!-- Product Image -->
+                                            <img src="{% static 'assets/images/application/img-prod-1.jpg' %}"
+                                                class="img-fluid rounded-top w-100" alt="Product Image"
+                                                style="max-height: 600px; object-fit: cover;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="col-md-6">
+                                <span class="badge bg-success f-14">Lost</span>
+                                <div class="item-details">
+                                    <h5 class="my-3">Category</h5>
+                                    <h6 class="mt-2 mb-3 f-w-500">Mobile Phones</h6>
+
+                                    <h5 class="my-3">Item Description</h5>
+                                    <h6 class="mt-2 mb-3 f-w-500">
+                                        Black iPhone 12 with a cracked screen protector.
+                                        Last seen near the University of Zambia library on September 5th, 2025.
+                                        The phone has a blue silicone case and contains important personal data.
+                                    </h6>
+
+                                    <h5 class="my-3">Posted By</h5>
+                                    <h6 class="mt-2 mb-3 f-w-500">John Doe</h6>
+
+                                    <h5 class="my-3">Date Posted</h5>
+                                    <h6 class="mt-2 mb-3 f-w-500">September 6, 2025</h6>
+
+                                    <h5 class="my-3">Location</h5>
+                                    <h6 class="mt-2 mb-3 f-w-500">Lusaka, Zambia</h6>
+
+
+                                    <div class="row mt-4">
+                                        <div class="col-6 col-md-4">
+                                            <div class="d-grid">
+                                                <button type="button" class="btn btn-primary">Claim Item</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <div class="d-grid">
+                                                <button type="button" class="btn btn-outline-secondary">Contact
+                                                    Finder</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h5>Related Items</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card product-card">
+                                <div class="card-img-top">
+                                    <a href="item.html">
+                                        <img src="{% static 'assets/images/application/img-prod-1.jpg' %}" alt="image"
+                                            class="img-prod img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <a href="#">
+                                    </a>
+                                    <div class="d-flex align-items-center justify-content-between mt-2">
+                                        <h4 class="mb-0 text-truncate"><b>Pixel 6a</b></h4>
+                                    </div>
+                                    <p class="prod-content mb-0 text-muted">Shopright-EastPark Mall</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card product-card">
+                                <div class="card-img-top">
+                                    <a href="item.html">
+                                        <img src="{% static 'assets/images/application/img-prod-1.jpg' %}" alt="image"
+                                            class="img-prod img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <a href="#">
+                                    </a>
+                                    <div class="d-flex align-items-center justify-content-between mt-2">
+                                        <h4 class="mb-0 text-truncate"><b>Pixel 6a</b></h4>
+                                    </div>
+                                    <p class="prod-content mb-0 text-muted">Shopright-EastPark Mall</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card product-card">
+                                <div class="card-img-top">
+                                    <a href="item.html">
+                                        <img src="{% static 'assets/images/application/img-prod-1.jpg' %}" alt="image"
+                                            class="img-prod img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <a href="#">
+                                    </a>
+                                    <div class="d-flex align-items-center justify-content-between mt-2">
+                                        <h4 class="mb-0 text-truncate"><b>Pixel 6a</b></h4>
+                                    </div>
+                                    <p class="prod-content mb-0 text-muted">Shopright-EastPark Mall</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xl-3">
+                            <div class="card product-card">
+                                <div class="card-img-top">
+                                    <a href="item.html">
+                                        <img src="{% static 'assets/images/application/img-prod-1.jpg' %}" alt="image"
+                                            class="img-prod img-fluid" />
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <a href="#">
+                                    </a>
+                                    <div class="d-flex align-items-center justify-content-between mt-2">
+                                        <h4 class="mb-0 text-truncate"><b>Pixel 6a</b></h4>
+                                    </div>
+                                    <p class="prod-content mb-0 text-muted">Shopright-EastPark Mall</p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock content %}

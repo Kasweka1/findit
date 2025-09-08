@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}FindIt{% endblock title %}
+
+{% block body_class %}component-page{% endblock %}
+{% block content %}
+{% include "base/findit/partials/_nav.html" %}
+
+<section class="component-block">
+
+    <div class="container">
+        <div class="col-md-6 col-xl-12">
+            <div class="card social-widget-card bg-dark">
+                <div class="card-body">
+                    <h3 class="text-white m-0">Lost and Found Items</h3>
+                    <span class="m-t-10">300+</span>
+                    <i class="fas fa-box-open"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-3">
+                <div class="offcanvas-xl offcanvas-start component-offcanvas"
+                    tabindex="-1" id="offcanvas_component">
+                    <div class="offcanvas-header">
+                        <button type="button" class="btn-close"
+                            data-bs-dismiss="offcanvas"
+                            data-bs-target="#offcanvas_component"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body p-0">
+                        <div class="card component-list-card position-xl-fixed">
+                            <div class="card-header">
+                                <div class="form-search">
+                                    <i class="ti ti-search"></i>
+                                    <input type="search" class="form-control"
+                                        placeholder="Search Categories"
+                                        id="compo-menu-search" />
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <h5 class="mt-3">Categories</h5>
+                                    </li>
+                                     <li><a href="#"
+                                            class="list-group-item list-group-item-action">All</a></li>
+                                    {% for category in categories %}
+                                    <li><a href="#"
+                                            class="list-group-item list-group-item-action">{{category.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xl-9">
+                <div class="ecom-wrapper">
+                    <div class="ecom-content">
+                        <div class="card">
+                            <div class="card-body p-3">
+                                <div class="d-sm-flex align-items-center">
+                                    <h3>Mobile Phones</h3>
+                                    <ul class="list-inline ms-auto my-1">
+                                        <li class="list-inline-item">
+                                            <select class="form-select">
+                                                <option>Lost</option>
+                                                <option>Found</option>
+                                            </select>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <div class="form-search">
+                                                <i class="ti ti-search"></i>
+                                                <input type="search"
+                                                    class="form-control"
+                                                    placeholder="Search Items" />
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            {% for item in items %}
+                            <div class="col-sm-6 col-xl-4">
+                                <div class="card product-card">
+                                    <div class="card-img-top">
+                                        <a href="item.html">
+                                            {% if item.image %}
+                                            <img src="{{ item.image.url }}"
+                                                alt="{{ item.title }}"
+                                                class="img-prod img-fluid" style="height: 300px; width: 100%; object-fit: cover;" /> 
+                                            {% else %}
+                                            <img
+                                                src="{% static 'assets/images/default-item.png' %}"
+                                                alt="No image"
+                                                class="img-prod img-fluid" />
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="#">
+                                        </a>
+                                        <span>{{ item.date_reported|date:"d M Y" }}</span>
+                                        <div
+                                            class="d-flex align-items-center justify-content-between mt-2">
+                                            <h4
+                                                class="mb-0 text-truncate"><b>{{item.title}}</b></h4>
+                                        </div>
+                                        <p
+                                            class="prod-content mb-0 text-muted">{{item.location}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <!-- Card Item  -->
+
+                             <!-- <div class="col-sm-6 col-xl-4">
+                                <div class="card product-card">
+                                    <div class="card-img-top">
+                                        <a href="#">
+                                            <img
+                                                src="{% static 'assets/images/application/img-prod-1.jpg' %}"
+                                                alt="image"
+                                                class="img-prod img-fluid" />
+                                        </a>
+                                    </div>
+                                    <div class="card-body">
+                                        <a href="#">
+                                        </a>
+                                        <div
+                                            class="d-flex align-items-center justify-content-between mt-2">
+                                            <h4
+                                                class="mb-0 text-truncate"><b>Pixel
+                                                    6a</b></h4>
+                                        </div>
+                                        <p
+                                            class="prod-content mb-0 text-muted">Shopright-EastPark
+                                            Mall</p>
+                                    </div>
+                                </div>
+                            </div>   -->
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock content %}

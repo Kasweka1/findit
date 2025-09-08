@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}FindIt{% endblock title %}
+
+{% block body_class %}component-page{% endblock %}
+{% block content %}
+{% include "base/findit/partials/_nav.html" %}
+
+<section class="component-block">
+
+    <div class="container">
+        <div class="col-md-6 col-xl-12">
+            <div class="card social-widget-card bg-dark">
+                <div class="card-body">
+                    <h3 class="text-white m-0">Post an Item</h3>
+                    <span class="m-t-10">Create an account or Login to post an
+                        item</span>
+                    <i class="fas fa-plus-square"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <form action="{% url 'post_item' %}" method="post"
+                        enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label class="form-label">Item
+                                            Name</label>
+                                        <input type="text" name="item_name"
+                                            class="form-control"
+                                            placeholder="Enter Product Name"
+                                            required>
+                                    </div>
+                                    <label class="form-label">Category</label>
+                                    <select class="form-select" name="category">
+                                        {% for category in categories %}
+                                        <option
+                                            value="{{ category.id }}">{{category.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Item
+                                        Status</label>
+                                    <select class="form-select" name="status">
+                                        <option>Lost</option>
+                                        <option>Found</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Item
+                                        Description</label>
+                                    <textarea class="form-control"
+                                        name="description"
+                                        placeholder="Enter Product Description"
+                                        rows="4" required></textarea>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label">Location
+                                        Address</label>
+                                    <input type="text" name="location"
+                                        class="form-control"
+                                        placeholder="Enter Location Address"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Upload Item
+                                        Picture</label>
+                                    <input type="file" name="item_picture"
+                                        class="form-control"
+                                        id="itemPictureInput" accept="image/*"
+                                        required />
+                                </div>
+                                <div class="form-group">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">Item
+                                                Image</h5>
+                                            <img id="previewImage" src="#"
+                                                alt="No image selected"
+                                                style="max-width: 200px; display: none; border-radius: 5px; margin-top: 10px;" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-end btn-page mb-0 mt-4">
+
+                                    <button class="btn btn-primary">Add
+                                        Item</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock content %}
+
+{% block script %}
+<script>
+    const input = document.getElementById("itemPictureInput");
+    const preview = document.getElementById("previewImage");
+
+    input.addEventListener("change", function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+
+            reader.addEventListener("load", function() {
+                preview.setAttribute("src", this.result);
+                preview.style.display = "block";
+            });
+
+            reader.readAsDataURL(file); // convert to base64 string
+        } else {
+            preview.style.display = "none";
+        }
+    });
+</script>
+{% endblock script %}

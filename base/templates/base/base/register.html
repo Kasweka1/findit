@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}FindIt{% endblock title %}
+
+{% block body_class %}{% endblock %}
+{% block content %}
+
+<div class="auth-main">
+    <div class="auth-wrapper v2">
+
+        <div class="auth-form">
+            <div class="card my-5">
+                <div class="card-body">
+                    <div class="text-center">
+                        <h3>FindIt</h3>
+
+                    </div>
+                    {% if errors %}
+                    <div class="alert alert-danger">
+                        <ul>
+                            {% for error in errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                    <h4 class="text-center f-w-500 mb-3">Create an account</h4>
+                    <form method="POST" action="{% url 'register' %}">  
+                        {% csrf_token %}
+                        <div class="form-group mb-3">
+                            <input type="text" name="first_name" class="form-control" id="floatingInput"
+                                placeholder="First Name">
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="text" name="last_name" class="form-control" id="floatingInput"
+                                placeholder="Last Name">
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="text" name="username" class="form-control" id="floatingInput"
+                                placeholder="Username">
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="text" name="mobile_no" class="form-control" id="floatingInput"
+                                placeholder="Mobile No">
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="email" name="email" class="form-control" id="floatingInput"
+                                placeholder="Email Address">
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="password" class="form-control" id="floatingInput1" placeholder="Password">
+                        </div>
+                        <div class="form-group mb-3">
+                            <input type="confirm_password" class="form-control" id="floatingInput1"
+                                placeholder="Retype Password">
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary">Create Account</button>
+                        </div>
+                    </form>
+
+                    <div class="d-flex justify-content-between align-items-end mt-4">
+                        <h6 class="f-w-500 mb-0">Arleady have an account?</h6>
+                        <a href="{% url 'login' %}" class="link-primary">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="auth-sidecontent">
+            <img src="{% static 'assets/images/authentication/img-auth-sideimg.jpg' %}" alt="images"
+                class="img-fluid img-auth-side">
+        </div>
+
+    </div>
+</div>
+{% endblock content %}
