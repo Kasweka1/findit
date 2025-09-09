@@ -46,7 +46,7 @@ def item_detail(request, item_id):
 
     # Get the item or 404
     item = get_object_or_404(ItemPost, id=item_id)
-
+    claim_count = ClaimRequest.objects.filter(item_post=item).count()
     # Initialize variables for template
     user_claim = None
     all_claims = None
@@ -73,6 +73,7 @@ def item_detail(request, item_id):
         "user_claim": user_claim,
         "all_claims": all_claims,
         "can_claim": can_claim,
+        "claim_count": claim_count,
     }
     return render(request, template_pass("findit", "item"), context)
 
