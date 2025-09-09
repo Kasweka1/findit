@@ -42,7 +42,7 @@ class ItemPost(models.Model):
     question_two = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.title} ({self.gest_post_type_display()})"
+        return f"{self.title} - {self.post_type} - {self.status})"
 
 
 class ClaimRequest(models.Model):

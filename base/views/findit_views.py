@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from base.models import Category, ClaimRequest, ItemPost, Profile
 from django.contrib import messages
 from base.utils import template_pass
+from django.utils.timezone import now
+from datetime import timedelta
 
 
 def landing(request):
@@ -48,6 +50,7 @@ def item_detail(request, item_id):
     # Initialize variables for template
     user_claim = None
     all_claims = None
+    can_claim = False
 
     if item.owner.user == user:
         # Owner sees all claims
@@ -56,10 +59,20 @@ def item_detail(request, item_id):
         # Non-owner sees only their own claim for this item (if any)
         user_claim = ClaimRequest.objects.filter(item_post=item, claimant=profile).first()
 
+        if item.status != "resolved":
+            if not user_claim:
+                # No claim yet → can claim
+                can_claim = True
+            else:
+                # Claim exists → check status
+                if user_claim.status == "rejected":
+                    can_claim = True
+            
     context = {
         "item": item,
         "user_claim": user_claim,
         "all_claims": all_claims,
+        "can_claim": can_claim,
     }
     return render(request, template_pass("findit", "item"), context)
 
@@ -103,6 +116,32 @@ def claim_item(request, item_id):
    
     return redirect("item_detail", item_id=item.id)
 
+@login_required
+def update_claim(request, claim_id):
+    claim = get_object_or_404(ClaimRequest, id=claim_id)
+    item = claim.item_post
+ 
+
+    # Only owner of the item can accept/reject
+    if request.user != claim.item_post.owner.user:
+        messages.error(request, "You are not allowed to manage this claim.")
+        return redirect("item_detail", item_id=claim.item_post.id)
+
+    if request.method == "POST":
+        action = request.POST.get("action")
+        if action == "accept":
+            claim.status = "accepted"
+            item.status = "resolved"
+            item.save()
+            messages.success(request, "Claim has been accepted.")
+        elif action == "reject":
+            claim.status = "rejected"
+            item.status = "unclaimed"
+            item.save()
+            messages.warning(request, "Claim has been rejected.")
+        claim.save()
+
+    return redirect("item_detail", item_id=claim.item_post.id)
 
 
 def post_item(request):

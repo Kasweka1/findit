@@ -86,7 +86,7 @@
                                     <h6 class="mt-2 mb-3 f-w-500">
                                         {{item.description}}.
                                     </h6>
-                                    {% if item.owner.user != request.user %}    
+                                    {% if can_claim %}
                                     <div class="row mt-4">
                                         <div class="col-6 col-md-4">
                                             <div class="d-grid">
@@ -188,9 +188,49 @@
                                                             </td> -->
                                                             <td>{{ claim.status|capfirst }}</td>
                                                             <td>{{ claim.created_at|date:"d M Y H:i" }}</td>
-                                                            <td><a href="#"><i class="ti ti-eye"></i></a></td>
+                                                            <td>
+                                                                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#claimModal{{ claim.id }}">
+                                                                <i class="ti ti-eye"></i>
+                                                            </td>
                                                         </tr>
+
+                                                                <!-- Modal for claim details -->
+                                                    <div class="modal fade" id="claimModal{{ claim.id }}" tabindex="-1" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Claim Details</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <p><strong>Claimant:</strong> {{ claim.claimant.user.get_full_name }}</p>
+                                                                    <p><strong>Status:</strong> {{ claim.status|capfirst }}</p>
+                                                                    <p><strong>Date Submitted:</strong> {{ claim.created_at|date:"d M Y H:i" }}</p>
+
+                                                                    {% if claim.security_answer_one %}
+                                                                    <p><strong>Answer 1:</strong> {{ claim.security_answer_one }}</p>
+                                                                    {% endif %}
+
+                                                                    {% if claim.security_answer_two %}
+                                                                    <p><strong>Answer 2:</strong> {{ claim.security_answer_two }}</p>
+                                                                    {% endif %}
+                                                                </div>
+                                                                 <div class="modal-footer">
+                                                                    <form method="post" action="{% url 'update_claim' claim.id %}">
+                                                                    {% csrf_token %}
+                                                                    <button type="submit" name="action" value="accept" class="btn btn-success">Accept</button>
+                                                                    <button type="submit" name="action" value="reject" class="btn btn-danger">Reject</button>
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                                    </form>
+                                                                </div>
+                                                           
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     {% endfor %}
+
+                                                    
+
                                                 </tbody>
                                             </table>
                                         {% endif %}

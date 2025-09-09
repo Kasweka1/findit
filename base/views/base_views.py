@@ -23,7 +23,7 @@ def login(request):
 
         if user is not None:
             auth_login(request, user)
-            messages.success(request, f"Welcome back, {user.first_name or user.username}!")
+    
             return redirect("landing") 
         else:
             messages.error(request, "Invalid credentials. Please try again.")
