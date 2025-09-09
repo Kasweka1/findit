@@ -37,6 +37,9 @@ class ItemPost(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="unclaimed")
     image = models.ImageField(upload_to="items/", blank=True, null=True)
     owner = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="posts")
+    
+    question_one = models.CharField(max_length=255, blank=True, null=True)
+    question_two = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return f"{self.title} ({self.gest_post_type_display()})"
@@ -52,7 +55,8 @@ class ClaimRequest(models.Model):
     item_post = models.ForeignKey(ItemPost, on_delete=models.CASCADE, related_name="claims")
     claimant = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="claims_made")
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="pending")
-    security_answer = models.TextField(blank=True, null=True)
+    security_answer_one = models.TextField(blank=True, null=True)
+    security_answer_two = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

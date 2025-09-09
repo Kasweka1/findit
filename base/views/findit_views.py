@@ -1,6 +1,6 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from base.models import Category, ItemPost, Profile
+from base.models import Category, ClaimRequest, ItemPost, Profile
 from django.contrib import messages
 from base.utils import template_pass
 
@@ -33,6 +33,78 @@ def lost_found(request):
     return render(request, template_pass("findit", "lost_found"), context)
 
 
+def item_detail(request, item_id):
+    # Check if user is logged in first
+    if not request.user.is_authenticated:
+        messages.info(request, "You need to log in to view this item.")
+        return redirect('login')
+
+    user = request.user
+    profile = Profile.objects.get(user=user)
+
+    # Get the item or 404
+    item = get_object_or_404(ItemPost, id=item_id)
+
+    # Initialize variables for template
+    user_claim = None
+    all_claims = None
+
+    if item.owner.user == user:
+        # Owner sees all claims
+        all_claims = ClaimRequest.objects.filter(item_post=item)
+    else:
+        # Non-owner sees only their own claim for this item (if any)
+        user_claim = ClaimRequest.objects.filter(item_post=item, claimant=profile).first()
+
+    context = {
+        "item": item,
+        "user_claim": user_claim,
+        "all_claims": all_claims,
+    }
+    return render(request, template_pass("findit", "item"), context)
+
+
+@login_required
+def claim_item(request, item_id):
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    item = get_object_or_404(ItemPost, id=item_id)
+
+    # Prevent user from claiming their own item
+    if item.owner.user == request.user:
+        messages.warning(request, "You cannot claim your own item.")
+        return redirect("item_detail", item_id=item.id)
+
+    # Check if item is "Found" (only found items can be claimed)
+    if item.post_type.lower() != "found":
+        messages.warning(request, "Only found items can be claimed.")
+        return redirect("item_detail", item_id=item.id)
+
+    # Check if user already claimed this item
+    if ClaimRequest.objects.filter(item_post=item, claimant=profile).exists():
+        messages.warning(request, "You have already submitted a claim for this item.")
+        return redirect("item_detail", item_id=item.id)
+
+    if request.method == "POST":
+        security_answer_1 = request.POST.get("security_answer_1")
+        security_answer_2 = request.POST.get("security_answer_2")
+
+        ClaimRequest.objects.create(
+            item_post=item,
+            claimant=profile,
+            status="pending",
+            security_answer_one=security_answer_1,
+            security_answer_two=security_answer_2
+        )
+
+        messages.success(request, "Your claim has been submitted. The finder will review it.")
+        return redirect("item_detail", item_id=item.id)
+
+   
+    return redirect("item_detail", item_id=item.id)
+
+
+
 def post_item(request):
     user = request.user
 
@@ -48,6 +120,8 @@ def post_item(request):
         description = request.POST.get("description")
         location = request.POST.get("location")
         item_picture = request.FILES.get("item_picture")
+        security_question_1 = request.POST.get("section_question_1")
+        security_question_2 = request.POST.get("section_question_2")
 
         print(category_id)
         try:
@@ -66,8 +140,11 @@ def post_item(request):
             location=location,
             image=item_picture,
             owner=profile,
+            question_one=security_question_1,
+            question_two=security_question_2,
         )
-
+        item_post.save()
+        
         messages.success(request, "Your item has been posted successfully!")
         return redirect("lost_found")
     context = {

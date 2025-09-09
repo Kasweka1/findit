@@ -34,7 +34,7 @@
 
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
-                    <a class="btn btn-success dropdown-toggle d-flex align-items-center" href="#" id="userDropdown"
+                    <a class="btn btn-primary dropdown-toggle d-flex align-items-center" href="#" id="userDropdown"
                         role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Hi {{user.first_name}}
                     </a>
@@ -53,7 +53,7 @@
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="btn btn btn-success" href="{% url 'login' %}">Sign
+                    <a class="btn btn btn-primary" href="{% url 'login' %}">Sign
                         in/Register </i></a>
                 </li>
                 {% endif %}

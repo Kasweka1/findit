@@ -49,11 +49,26 @@
                                 <div class="form-group">
                                     <label class="form-label">Item
                                         Status</label>
-                                    <select class="form-select" name="status">
-                                        <option>Lost</option>
+                                    <select class="form-select" name="status" id="item-status">
                                         <option>Found</option>
+                                        <option>Lost</option>
                                     </select>
                                 </div>
+                                <div class="form-group"  id="security-q1">
+                                    <label class="form-label">Security Question 1 *</label>
+                                    <input type="text" name="section_question_1"
+                                        class="form-control"
+                                        placeholder="Enter Security Question if applicable"
+                                        required >
+                                </div>
+                                <div class="form-group"  id="security-q2">
+                                    <label class="form-label">Security Question 2</label>
+                                    <input type="text" name="section_question_2"
+                                        class="form-control"
+                                        placeholder="Enter Security Question if applicable"
+                                        >
+                                </div>
+                               
                                 <div class="form-group">
                                     <label class="form-label">Item
                                         Description</label>
@@ -128,5 +143,29 @@
             preview.style.display = "none";
         }
     });
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const statusSelect = document.getElementById("item-status");
+    const q1 = document.getElementById("security-q1");
+    const q2 = document.getElementById("security-q2");
+
+    function toggleQuestions() {
+        if (statusSelect.value === "Found") {
+            q1.style.display = "block";
+            q2.style.display = "block";
+        } else {
+            q1.style.display = "none";
+            q2.style.display = "none";
+        }
+    }
+
+    // Run once on page load
+    toggleQuestions();
+
+    // Listen for changes
+    statusSelect.addEventListener("change", toggleQuestions);
+});
 </script>
 {% endblock script %}

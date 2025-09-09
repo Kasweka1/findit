@@ -90,7 +90,7 @@
                             <div class="col-sm-6 col-xl-4" data-card-category="{{ item.category.id }}"  data-post-type="{{ item.post_type }}">
                                 <div class="card product-card">
                                     <div class="card-img-top">
-                                        <a href="#">
+                                        <a href="{% url 'item_detail' item.id %}">
                                             {% if item.image %}
                                             <img src="{{ item.image.url }}"
                                                 alt="{{ item.title }}"
@@ -106,7 +106,10 @@
                                         </a>
                                     </div>
                                     <div class="card-body">
-                                        <span>{{item.date_reported|date:"d M Y"}}</span>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>{{item.date_reported|date:"d M Y"}}</span>
+                                            <strong><span class="text-primary">{{ item.post_type|capfirst }}</span></strong>
+                                        </div>
                                         <h4 class="mb-0 text-truncate"><b>{{item.title }}</b></h4>
                                         <p
                                             class="prod-content mb-0 text-muted">{{ item.location }}</p>
