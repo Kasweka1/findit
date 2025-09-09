@@ -39,9 +39,15 @@
                                 </li>
 
                                 <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab-4" data-bs-toggle="tab" href="#profile-5"
+                                    <a class="nav-link" id="profile-tab-5" data-bs-toggle="tab" href="#profile-5"
                                         role="tab" aria-selected="true">
-                                        <i class="ti ti-box me-2"></i>Claimed Items
+                                        <i class="ti ti-checkbox me-2"></i>Claimed Items
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab-6" data-bs-toggle="tab" href="#profile-6"
+                                        role="tab" aria-selected="true">
+                                        <i class="ti ti-box me-2"></i>Posted Items
                                     </a>
                                 </li>
 
@@ -52,8 +58,7 @@
 
 
                     <div class="tab-content">
-                        <div class="tab-pane show active" id="profile-1" role="tabpanel"
-                            aria-labelledby="profile-tab-1">
+                        <div class="tab-pane show active" id="profile-1" role="tabpanel"  aria-labelledby="profile-tab-1">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="card">
@@ -165,6 +170,128 @@
                                 <div class="card-footer text-end btn-page">
                                     <div class="btn btn-outline-secondary">Cancel</div>
                                     <div class="btn btn-primary">Update Profile</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="profile-5" role="tabpanel" aria-labelledby="profile-tab-5">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Claimed Items</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Item Name</th>
+                                                    <th>Category</th>
+                                                    <th>Status</th>
+                                                    <th>Date Claimed</th>
+                                                    <th>Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for claim in claimed_items %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>
+                                                        <div class="row align-items-center">
+                                                            <div class="col-auto pe-0">
+                                                            <img src="{{ claim.item_post.image.url }}" alt="user-image" class="wid-55 hei-55 rounded" />
+                                                            </div>
+                                                            <div class="col">
+                                                            <h6 class="mb-2"><span class="text-truncate w-100">{{ claim.item_post.title }}</span></h6>
+                                                            <p class="text-muted f-12 mb-0"
+                                                                ><span class="text-truncate w-100">{{ claim.item_post.location }} </span></p
+                                                            >
+                                                            </div>
+                                                        </div>
+                                                    </td>
+      
+                                                    <td>{{ claim.item_post.category.name }}</td>
+                                                    <td>
+                                                        {% if claim.status == 'pending' %}
+                                                        <span class="badge bg-warning text-dark">Pending</span>
+                                                        {% elif claim.status == 'approved' %}
+                                                        <span class="badge bg-success">Approved</span>
+                                                        {% elif claim.status == 'rejected' %}
+                                                        <span class="badge bg-danger">Rejected</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ claim.created_at|date:"M d, Y" }}</td>
+                                                    <td><a href="{% url 'item_detail' claim.item_post.id %}"><i class="ti ti-eye" style="font-size: 1.7em;"></i></a></td>
+                                                </tr>
+                                                {% empty %}
+                                                <tr>
+                                                    <td colspan="6" class="text-center">No claimed items found.</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="profile-6" role="tabpanel" aria-labelledby="profile-tab-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Posted Items</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Item Name</th>
+                                                    <th>Category</th>
+                                                    <th>Status</th>
+                                                    <th>Date Claimed</th>
+                                                    <th>Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in posted_items %}
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>
+                                                        <div class="row align-items-center">
+                                                            <div class="col-auto pe-0">
+                                                            <img src="{{ item.image.url }}" alt="user-image" class="wid-55 hei-55 rounded" />
+                                                            </div>
+                                                            <div class="col">
+                                                            <h6 class="mb-2"><span class="text-truncate w-100">{{ item.title }}</span></h6>
+                                                            <p class="text-muted f-12 mb-0"
+                                                                ><span class="text-truncate w-100">{{ item.location }} </span></p
+                                                            >
+                                                            </div>
+                                                        </div>
+                                                    </td>
+      
+                                                    <td>{{ item.category.name }}</td>
+                                                    <td>
+                                                        {% if item.status == 'unclaimed' %}
+                                                        <span class="badge bg-warning text-dark">Unclaimed</span>
+                                                        {% elif item.status == 'claimed' %}
+                                                        <span class="badge bg-success">Claimed</span>
+                                                        {% elif item.status == 'resolved' %}
+                                                        <span class="badge bg-danger">Resolved</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>{{ item.date_reported|date:"M d, Y" }}</td>
+                                                    <td><a href="{% url 'item_detail' item.id %}"><i class="ti ti-eye" style="font-size: 1.7em;"></i></a></td>
+                                                </tr>
+                                                {% empty %}
+                                                <tr>
+                                                    <td colspan="6" class="text-center">No claimed items found.</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>

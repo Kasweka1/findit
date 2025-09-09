@@ -14,20 +14,22 @@ def login(request):
         password = request.POST.get("password").strip()
 
         try:
-            user_obj = User.objects.get(Q(username=username_or_email) | Q(email=username_or_email))
+            user_obj = User.objects.get(
+                Q(username=username_or_email) | Q(email=username_or_email)
+            )
             username = user_obj.username
         except User.DoesNotExist:
-            username = username_or_email 
+            username = username_or_email
 
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
             auth_login(request, user)
-    
-            return redirect("landing") 
+
+            return redirect("landing")
         else:
             messages.error(request, "Invalid credentials. Please try again.")
-            
+
     context = {}
     return render(request, template_pass("base", "login"), context)
 
@@ -43,52 +45,56 @@ def register(request):
         confirm_password = request.POST.get("confirm_password")
 
         errors = []
+        context = {}
 
         # Password match check
         if password != confirm_password:
-            errors.error("Passwords do not match.")
+            errors.append("Passwords do not match.")
 
         # Username exists
         if User.objects.filter(username=username).exists():
-            errors.error("Username already taken.")
+            errors.append("Username already taken.")
 
         # Email exists
         if User.objects.filter(email=email).exists():
-            errors.error("Email is already registered.")
+            errors.append("Email is already registered.")
 
         if errors:
             context["errors"] = errors
             # Keep entered values except password
-            context.update({
-                "first_name": first_name,
-                "last_name": last_name,
-                "username": username,
-                "email": email,
-                "mobile_no": mobile_no,
-            })
-            return render(request, "base/register.html", context)
-        
+            context.update(
+                {
+                    "first_name": first_name,
+                    "last_name": last_name,
+                    "username": username,
+                    "email": email,
+                    "mobile_no": mobile_no,
+                }
+            )
+            return render(request, template_pass("base", "register"), context)
+
+        # Create the user
         user = User.objects.create_user(
             username=username,
             email=email,
-            password=password,
+            password=password, 
             first_name=first_name,
             last_name=last_name,
         )
-        user.save()
-        
+
         profile = Profile.objects.create(
             user=user,
             mobile_number=mobile_no,
         )
         profile.save()
-        
-        messages.success(request, "Your account has been created successfully! Please log in.")
+
+        messages.success(
+            request, "Your account has been created successfully! Please log in."
+        )
         return redirect("login")
-    
+
     context = {}
     return render(request, template_pass("base", "register"), context)
-
 
 
 def logout_view(request):
@@ -96,6 +102,6 @@ def logout_view(request):
     storage = messages.get_messages(request)
     for _ in storage:
         pass
-    
+
     messages.info(request, "You have been logged out successfully.")
     return redirect("login")

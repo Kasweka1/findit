@@ -209,9 +209,20 @@ def account_profile(request):
         profile = Profile.objects.get(user=user)
     except Profile.DoesNotExist:
         profile = None
-    print(profile)
+
+    posted_items = []
+    claimed_items = []
+
+    if profile:
+        # Items the user has posted
+        posted_items = ItemPost.objects.filter(owner=profile)
+
+        # Items the user has claimed
+        claimed_items = ClaimRequest.objects.filter(claimant=profile)
 
     context = {
         "profile": profile,
+        "posted_items": posted_items,
+        "claimed_items": claimed_items,
     }
     return render(request, template_pass("findit", "account_profile"), context)
