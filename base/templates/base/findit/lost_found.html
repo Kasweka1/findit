@@ -44,16 +44,15 @@
                                     <li class="list-group-item">
                                         <h5 class="mt-3">Categories</h5>
                                     </li>
-                                     <li><a href="#"
-                                            class="list-group-item list-group-item-action">All</a></li>
+                                    <li><a href="#"  class="list-group-item list-group-item-action"  data-category="all">All</a></li>
                                     {% for category in categories %}
                                     <li><a href="#"
-                                            class="list-group-item list-group-item-action">{{category.name }}</a></li>
+                                            class="list-group-item list-group-item-action" data-category="{{ category.id }}">{{category.name}}</a></li>
                                     {% endfor %}
                                 </ul>
                             </div>
                         </div>
-                    </div>
+                    </div>      
                 </div>
 
             </div>
@@ -63,21 +62,24 @@
                         <div class="card">
                             <div class="card-body p-3">
                                 <div class="d-sm-flex align-items-center">
-                                    <h3>Mobile Phones</h3>
+                                    <h3>All</h3>
                                     <ul class="list-inline ms-auto my-1">
                                         <li class="list-inline-item">
                                             <select class="form-select">
-                                                <option>Lost</option>
-                                                <option>Found</option>
+                                                <option value="all">All</option>
+                                                <option value="lost">Lost</option>
+                                                <option value="found">Found</option>
                                             </select>
                                         </li>
                                         <li class="list-inline-item">
+
                                             <div class="form-search">
                                                 <i class="ti ti-search"></i>
                                                 <input type="search"
                                                     class="form-control"
                                                     placeholder="Search Items" />
                                             </div>
+
                                         </li>
                                     </ul>
                                 </div>
@@ -85,66 +87,49 @@
                         </div>
                         <div class="row">
                             {% for item in items %}
-                            <div class="col-sm-6 col-xl-4">
+                            <div class="col-sm-6 col-xl-4" data-card-category="{{ item.category.id }}"  data-post-type="{{ item.post_type }}">
                                 <div class="card product-card">
                                     <div class="card-img-top">
-                                        <a href="item.html">
+                                        <a href="#">
                                             {% if item.image %}
                                             <img src="{{ item.image.url }}"
                                                 alt="{{ item.title }}"
-                                                class="img-prod img-fluid" style="height: 300px; width: 100%; object-fit: cover;" /> 
+                                                class="img-prod img-fluid"
+                                                style="height: 300px; width: 100%; object-fit: cover;" />
                                             {% else %}
                                             <img
                                                 src="{% static 'assets/images/default-item.png' %}"
                                                 alt="No image"
-                                                class="img-prod img-fluid" />
+                                                class="img-prod img-fluid"
+                                                style="height: 300px; width: 100%; object-fit: cover;" />
                                             {% endif %}
                                         </a>
                                     </div>
                                     <div class="card-body">
-                                        <a href="#">
-                                        </a>
-                                        <span>{{ item.date_reported|date:"d M Y" }}</span>
-                                        <div
-                                            class="d-flex align-items-center justify-content-between mt-2">
-                                            <h4
-                                                class="mb-0 text-truncate"><b>{{item.title}}</b></h4>
-                                        </div>
+                                        <span>{{item.date_reported|date:"d M Y"}}</span>
+                                        <h4 class="mb-0 text-truncate"><b>{{item.title }}</b></h4>
                                         <p
-                                            class="prod-content mb-0 text-muted">{{item.location}}</p>
+                                            class="prod-content mb-0 text-muted">{{ item.location }}</p>
                                     </div>
                                 </div>
                             </div>
                             {% endfor %}
-                            <!-- Card Item  -->
-
-                             <!-- <div class="col-sm-6 col-xl-4">
-                                <div class="card product-card">
-                                    <div class="card-img-top">
-                                        <a href="#">
-                                            <img
-                                                src="{% static 'assets/images/application/img-prod-1.jpg' %}"
-                                                alt="image"
-                                                class="img-prod img-fluid" />
-                                        </a>
-                                    </div>
-                                    <div class="card-body">
-                                        <a href="#">
-                                        </a>
-                                        <div
-                                            class="d-flex align-items-center justify-content-between mt-2">
-                                            <h4
-                                                class="mb-0 text-truncate"><b>Pixel
-                                                    6a</b></h4>
+                               {% for i in "12345"|slice:":{{ 4|add:-items|length }}" %}
+                                <div class="col-sm-6 col-xl-3">
+                                    <div class="card product-card" style="opacity:0; pointer-events:none;">
+                                        <div class="card-body text-center d-flex align-items-center justify-content-center">
+                                            <div class="text-muted">
+                                                <i class="fas fa-ellipsis-h fa-2x"></i>
+                                                <p class="mt-2">..................................................</p>
+                                            </div>
                                         </div>
-                                        <p
-                                            class="prod-content mb-0 text-muted">Shopright-EastPark
-                                            Mall</p>
                                     </div>
                                 </div>
-                            </div>   -->
-
+                                {% endfor %}
+                             {# Add placeholder cards until we reach 4 #}
+ 
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -153,3 +138,120 @@
     </div>
 </section>
 {% endblock content %}
+
+
+{% block script %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const categoryLinks = document.querySelectorAll('[data-category]');
+    const postTypeSelect = document.querySelector("select.form-select");
+    const itemSearchInput = document.querySelector(".d-sm-flex .form-search input"); // item search
+    const categorySearchInput = document.querySelector("#compo-menu-search"); // category search
+    const cards = document.querySelectorAll("[data-card-category]");
+    const title = document.querySelector(".ecom-content h3");
+
+    let activeCategory = "all";   // default
+    let activePostType = "all";   // default
+    let searchQuery = "";         // default
+
+    // Function to filter cards
+    function filterCards() {
+        cards.forEach(card => {
+            const cardCategory = card.getAttribute("data-card-category");
+            const cardPostType = card.getAttribute("data-post-type");
+            const cardText = card.textContent.toLowerCase();
+
+            const matchCategory = (activeCategory === "all" || cardCategory === activeCategory);
+            const matchPostType = (activePostType === "all" || cardPostType === activePostType);
+            const matchSearch = (searchQuery === "" || cardText.includes(searchQuery));
+
+            if (matchCategory && matchPostType && matchSearch) {
+                card.style.display = "";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
+
+    // 🔹 Category click
+    categoryLinks.forEach(link => {
+        link.addEventListener("click", function(e) {
+            e.preventDefault();
+            activeCategory = this.getAttribute("data-category");
+
+            // Update title
+            title.textContent = this.textContent.trim();
+
+            // Highlight active
+            categoryLinks.forEach(l => l.classList.remove("active"));
+            this.classList.add("active");
+
+            filterCards();
+        });
+    });
+
+    // 🔹 Post type dropdown
+    postTypeSelect.addEventListener("change", function() {
+        activePostType = this.value.toLowerCase();
+        filterCards();
+    });
+
+    // 🔹 Item search (2nd search bar)
+    itemSearchInput.addEventListener("input", function() {
+        searchQuery = this.value.toLowerCase().trim();
+        filterCards();
+    });
+
+    // 🔹 Category search (1st search bar → filters the category list only)
+    categorySearchInput.addEventListener("input", function() {
+        const query = this.value.toLowerCase().trim();
+        categoryLinks.forEach(link => {
+            const text = link.textContent.toLowerCase();
+            if (text.includes(query) || link.getAttribute("data-category") === "all") {
+                link.style.display = "";
+            } else {
+                link.style.display = "none";
+            }
+        });
+    });
+
+    // Initial filter
+    filterCards();
+});
+
+
+</script>
+<!-- <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const categoryLinks = document.querySelectorAll('[data-category]');
+    const cards = document.querySelectorAll('[data-card-category]');
+    const title = document.querySelector(".ecom-content h3");  // the <h3> "All"
+
+    categoryLinks.forEach(link => {
+        link.addEventListener("click", function(e) {
+            e.preventDefault();
+            const selected = this.getAttribute("data-category");
+
+            // Update title
+            title.textContent = this.textContent.trim();
+
+               // 🔹 Highlight active link
+            categoryLinks.forEach(l => l.classList.remove("active"));
+            this.classList.add("active");
+
+            // Filter cards
+            cards.forEach(card => {
+                const cardCategory = card.getAttribute("data-card-category");
+                if (selected === "all" || cardCategory === selected) {
+                    card.style.display = "";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        });
+    });
+});
+
+</script> -->
+
+{% endblock script %}
