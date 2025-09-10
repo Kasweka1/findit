@@ -1,7 +1,7 @@
 from django.urls import path
 
 
-from base.views import findit_views,base_views
+from base.views import findit_views,base_views, management_views
 
 urlpatterns = [
     
@@ -20,4 +20,7 @@ urlpatterns = [
     path('about-us/', findit_views.about_us, name='about_us'),
     path('contact/', findit_views.contact, name='contact'),
     path('account/', findit_views.account_profile, name='account'),
+    
+    # management views
+    path('management/admin-dashboard/', management_views.admin_dashboard, name='admin_dashboard'),
 ]

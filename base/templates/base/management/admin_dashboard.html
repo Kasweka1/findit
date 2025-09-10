@@ -1,0 +1,73 @@
+{% extends "dashboard_base.html" %}
+{% load static %}
+
+{% block title %}Admin - Dashboard{% endblock title %}
+
+{% block content %}
+<div class="pc-container">
+    <div class="pc-content">
+      <!-- [ breadcrumb ] start -->
+      <div class="page-header">
+        <div class="page-block">
+          <div class="row align-items-center">
+            <div class="col-md-12">
+              <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="javascript: void(0)">Dashboard</a></li>
+                <li class="breadcrumb-item" aria-current="page">Home</li>
+              </ul>
+            </div>
+            <div class="col-md-12">
+              <div class="page-header-title">
+                <h2 class="mb-0">Home</h2>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- [ breadcrumb ] end -->
+
+      <!-- [ Main Content ] start -->
+      <div class="row">
+        <div class="col-md-6 col-xl-3">
+          <div class="card social-widget-card bg-primary">
+            <div class="card-body">
+              <h3 class="text-white m-0">{{profiles.count}}</h3>
+              <span class="m-t-10">Users</span>
+              <i class="ti ti-user"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="card social-widget-card bg-info">
+            <div class="card-body">
+              <h3 class="text-white m-0">{{claims.count}}</h3>
+              <span class="m-t-10">Claims</span>
+              <i class="ti ti-versions"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="card social-widget-card bg-dark">
+            <div class="card-body">
+              <h3 class="text-white m-0">{{categories.count}}</h3>
+              <span class="m-t-10">Catergories</span>
+              <i class="ti ti-stack"></i>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+          <div class="card social-widget-card bg-danger">
+            <div class="card-body">
+              <h3 class="text-white m-0">{{items.count}}</h3>
+              <span class="m-t-10">Items</span>
+              <i class="ti ti-box"></i>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- [ Main Content ] end -->
+    </div>
+  </div>
+{% endblock content %}
