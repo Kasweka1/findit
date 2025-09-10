@@ -144,19 +144,21 @@
         }
     });
 </script>
-
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const statusSelect = document.getElementById("item-status");
     const q1 = document.getElementById("security-q1");
+    const q1Input = q1.querySelector("input");
     const q2 = document.getElementById("security-q2");
 
     function toggleQuestions() {
         if (statusSelect.value === "Found") {
             q1.style.display = "block";
+            q1Input.setAttribute("required", "required"); // make required
             q2.style.display = "block";
         } else {
             q1.style.display = "none";
+            q1Input.removeAttribute("required"); // remove required
             q2.style.display = "none";
         }
     }
@@ -168,4 +170,5 @@ document.addEventListener("DOMContentLoaded", function() {
     statusSelect.addEventListener("change", toggleQuestions);
 });
 </script>
+
 {% endblock script %}
