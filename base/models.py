@@ -1,4 +1,6 @@
+import os
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import User
 
 class Profile(models.Model):
@@ -43,6 +45,13 @@ class ItemPost(models.Model):
 
     def __str__(self):
         return f"{self.title} - {self.post_type} - {self.status})"
+    
+    def get_image_url(self):
+        if self.image and self.image.name:
+            file_path = os.path.join(settings.MEDIA_ROOT, self.image.name)
+            if os.path.exists(file_path):
+                return self.image.url
+        return "/static/assets/images/findit/default_image.png"
 
 
 class ClaimRequest(models.Model):

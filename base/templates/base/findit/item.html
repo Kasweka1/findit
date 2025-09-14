@@ -2,7 +2,13 @@
 {% load static %}
 
 {% block title %}FindIt{% endblock title %}
-
+ {% block style %}
+    <style>
+        .blurred {
+            filter: blur(20px);
+        }
+</style>
+ {% endblock style %}
 {% block body_class %}component-page{% endblock %}
 {% block content %}
 {% include "base/findit/partials/_nav.html" %}
@@ -51,8 +57,8 @@
 
 
                                             <!-- Product Image -->
-                                            <img src="{{item.image.url}}"
-                                                class="img-fluid rounded-top w-100" alt="{{item.title}}"
+                                            <img src="{{item.get_image_url}}"
+                                                class="img-fluid rounded-top w-100 {% if item.is_blurred %}blurred{% endif %} " alt="{{item.title}}"
                                                   style="height: 600px; object-fit: cover;">
                                         </div>
                                     </div>
@@ -72,7 +78,7 @@
                                             <h6 class="mt-2 mb-3 f-w-500">{{item.category}}</h6>
 
                                             <h5 class="my-3">Posted By</h5>
-                                            <h6 class="mt-2 mb-3 f-w-500">{{item.owner.user.first_name}} {{item.owner.user.last_name}}</h6>
+                                            <a href="{% url 'profile_view' item.owner.user.username  %}"><h6 class="mt-2 mb-3 f-w-500">{{item.owner.user.first_name}} {{item.owner.user.last_name}}</h6></a>
                                         </div>
                                         <div class="col-md-6">
                                             <h5 class="my-3">Date Posted</h5>

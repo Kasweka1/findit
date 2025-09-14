@@ -2,7 +2,13 @@
 {% load static %}
 
 {% block title %}FindIt{% endblock title %}
-
+ {% block style %}
+    <style>
+        .blurred {
+            filter: blur(20px);
+        }
+</style>
+ {% endblock style %}
 {% block body_class %}component-page{% endblock %}
 {% block content %}
 {% include "base/findit/partials/_nav.html" %}
@@ -91,18 +97,12 @@
                                 <div class="card product-card">
                                     <div class="card-img-top">
                                         <a href="{% url 'item_detail' item.id %}">
-                                            {% if item.image %}
-                                            <img src="{{ item.image.url }}"
+                                           
+                                            <img src="{{ item.get_image_url }}"
                                                 alt="{{ item.title }}"
-                                                class="img-prod img-fluid"
+                                                class="img-prod img-fluid {% if item.is_blurred %}blurred{% endif %}"
                                                 style="height: 300px; width: 100%; object-fit: cover;" />
-                                            {% else %}
-                                            <img
-                                                src="{% static 'assets/images/default-item.png' %}"
-                                                alt="No image"
-                                                class="img-prod img-fluid"
-                                                style="height: 300px; width: 100%; object-fit: cover;" />
-                                            {% endif %}
+                                         
                                         </a>
                                     </div>
                                     <div class="card-body">

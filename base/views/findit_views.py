@@ -25,12 +25,16 @@ def landing(request):
 
 
 def lost_found(request):
+    user = request.user
     categories = Category.objects.all()
     items = ItemPost.objects.all()
 
+    for item in items:
+        item.is_blurred = item.post_type == "found" and item.owner.user != user
+
     context = {
         "categories": categories,
-        "items":items,
+        "items": items,
     }
     return render(request, template_pass("findit", "lost_found"), context)
 
@@ -39,14 +43,17 @@ def item_detail(request, item_id):
     # Check if user is logged in first
     if not request.user.is_authenticated:
         messages.info(request, "You need to log in to view this item.")
-        return redirect('login')
+        return redirect("login")
 
     user = request.user
     profile = Profile.objects.get(user=user)
 
     # Get the item or 404
     item = get_object_or_404(ItemPost, id=item_id)
+    item.is_blurred = item.post_type == "found" and item.owner.user != user
+
     claim_count = ClaimRequest.objects.filter(item_post=item).count()
+
     # Initialize variables for template
     user_claim = None
     all_claims = None
@@ -57,7 +64,9 @@ def item_detail(request, item_id):
         all_claims = ClaimRequest.objects.filter(item_post=item)
     else:
         # Non-owner sees only their own claim for this item (if any)
-        user_claim = ClaimRequest.objects.filter(item_post=item, claimant=profile).first()
+        user_claim = ClaimRequest.objects.filter(
+            item_post=item, claimant=profile
+        ).first()
 
         if item.status != "resolved":
             if not user_claim:
@@ -67,7 +76,7 @@ def item_detail(request, item_id):
                 # Claim exists → check status
                 if user_claim.status == "rejected":
                     can_claim = True
-            
+
     context = {
         "item": item,
         "user_claim": user_claim,
@@ -108,20 +117,21 @@ def claim_item(request, item_id):
             claimant=profile,
             status="pending",
             security_answer_one=security_answer_1,
-            security_answer_two=security_answer_2
+            security_answer_two=security_answer_2,
         )
 
-        messages.success(request, "Your claim has been submitted. The finder will review it.")
+        messages.success(
+            request, "Your claim has been submitted. The finder will review it."
+        )
         return redirect("item_detail", item_id=item.id)
 
-   
     return redirect("item_detail", item_id=item.id)
+
 
 @login_required
 def update_claim(request, claim_id):
     claim = get_object_or_404(ClaimRequest, id=claim_id)
     item = claim.item_post
- 
 
     # Only owner of the item can accept/reject
     if request.user != claim.item_post.owner.user:
@@ -184,7 +194,7 @@ def post_item(request):
             question_two=security_question_2,
         )
         item_post.save()
-        
+
         messages.success(request, "Your item has been posted successfully!")
         return redirect("lost_found")
     context = {
@@ -227,3 +237,30 @@ def account_profile(request):
         "claimed_items": claimed_items,
     }
     return render(request, template_pass("findit", "account_profile"), context)
+
+
+def profile_view(request, username):
+    try:
+        profile = Profile.objects.get(user__username=username)
+    except Profile.DoesNotExist:
+        messages.error(request, "Profile not found.")
+        return redirect("lost_found")
+
+    # Items posted by this user
+    posted_items = ItemPost.objects.filter(owner=profile)
+    
+    claims_on_items = ClaimRequest.objects.filter(item_post__in=posted_items).exclude(claimant=profile)
+    accepted_items = ClaimRequest.objects.filter(
+        item_post__in=posted_items,
+        status="accepted",  
+    )
+
+    print(claims_on_items)
+
+    context = {
+        "profile": profile,
+        "posted_items": posted_items,
+        "claims_on_items":claims_on_items,
+        "accepted_items":accepted_items,
+    }
+    return render(request, template_pass("findit", "profile_view"), context)

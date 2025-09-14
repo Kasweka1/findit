@@ -16,6 +16,7 @@ urlpatterns = [
     path('item-detail/<int:item_id>/', findit_views.item_detail, name='item_detail'),
     path('claim-item/<int:item_id>/', findit_views.claim_item, name='claim_item'),
     path('claims/<int:claim_id>/update/', findit_views.update_claim, name="update_claim"),
+    path('profile/<str:username>/', findit_views.profile_view, name='profile_view'),
     path('post-item/', findit_views.post_item, name='post_item'),
     path('about-us/', findit_views.about_us, name='about_us'),
     path('contact/', findit_views.contact, name='contact'),
