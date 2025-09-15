@@ -25,6 +25,9 @@ def login(request):
 
         if user is not None:
             auth_login(request, user)
+            
+            if user.is_superuser:
+                return redirect("admin_dashboard")
 
             return redirect("landing")
         else:
