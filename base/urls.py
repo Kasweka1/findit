@@ -24,4 +24,5 @@ urlpatterns = [
     
     # management views
     path('management/admin-dashboard/', management_views.admin_dashboard, name='admin_dashboard'),
+    path('management/categories/', management_views.categories_management, name='categories_management'),
 ]

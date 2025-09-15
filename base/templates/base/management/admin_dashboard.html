@@ -5,69 +5,484 @@
 
 {% block content %}
 <div class="pc-container">
-    <div class="pc-content">
-      <!-- [ breadcrumb ] start -->
-      <div class="page-header">
-        <div class="page-block">
-          <div class="row align-items-center">
-            <div class="col-md-12">
-              <ul class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="javascript: void(0)">Dashboard</a></li>
-                <li class="breadcrumb-item" aria-current="page">Home</li>
+  <div class="pc-content">
+    <!-- [ breadcrumb ] start -->
+    <div class="page-header">
+      <div class="page-block">
+        <div class="row align-items-center">
+          <div class="col-md-12">
+            <ul class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item"><a href="javascript: void(0)">Dashboard</a></li>
+              <li class="breadcrumb-item" aria-current="page">Home</li>
+            </ul>
+          </div>
+          <div class="col-md-12">
+            <div class="page-header-title">
+              <h2 class="mb-0">Home</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- [ breadcrumb ] end -->
+
+    <!-- [ Main Content ] start -->
+    <div class="row">
+      <div class="col-md-6 col-xl-3">
+        <div class="card social-widget-card bg-primary">
+          <div class="card-body">
+            <h3 class="text-white m-0">{{profiles.count}}</h3>
+            <span class="m-t-10">Users</span>
+            <i class="ti ti-user"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="card social-widget-card bg-info">
+          <div class="card-body">
+            <h3 class="text-white m-0">{{claims.count}}</h3>
+            <span class="m-t-10">Claims</span>
+            <i class="ti ti-versions"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="card social-widget-card bg-dark">
+          <div class="card-body">
+            <h3 class="text-white m-0">{{categories.count}}</h3>
+            <span class="m-t-10">Catergories</span>
+            <i class="ti ti-stack"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-xl-3">
+        <div class="card social-widget-card bg-danger">
+          <div class="card-body">
+            <h3 class="text-white m-0">{{items.count}}</h3>
+            <span class="m-t-10">Items</span>
+            <i class="ti ti-box"></i>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between">
+              <h5 class="mb-0">Claims</h5>
+              
+            </div>
+            <div id="total-income-graph"></div>
+            <div class="row g-3 mt-3">
+              <div class="col-sm-6">
+                <div class="bg-body p-3 rounded">
+                  <div class="d-flex align-items-center mb-2">
+                    <div class="flex-shrink-0">
+                      <span class="p-1 d-block bg-primary rounded-circle">
+                        <span class="visually-hidden">New alerts</span>
+                      </span>
+                    </div>
+                    <div class="flex-grow-1 ms-2">
+                      <p class="mb-0">Accepted</p>
+                    </div>
+                  </div>
+                  <h6 class="mb-0">86
+                  </h6>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="bg-body p-3 rounded">
+                  <div class="d-flex align-items-center mb-2">
+                    <div class="flex-shrink-0">
+                      <span class="p-1 d-block bg-warning rounded-circle">
+                        <span class="visually-hidden">New alerts</span>
+                      </span>
+                    </div>
+                    <div class="flex-grow-1 ms-2">
+                      <p class="mb-0">Rejected</p>
+                    </div>
+                  </div>
+                  <h6 class="mb-0">76 
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-6 col-md-12">
+        <div class="card">
+          <div class="card-body border-bottom pb-0">
+            <div class="d-flex align-items-center justify-content-between">
+              <h5 class="mb-0">Recent Posted Items</h5>
+            
+            </div>
+            <ul class="nav nav-tabs analytics-tab" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="analytics-tab-1" data-bs-toggle="tab"
+                  data-bs-target="#analytics-tab-1-pane" type="button" role="tab" aria-controls="analytics-tab-1-pane"
+                  aria-selected="true">All Items</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="analytics-tab-2" data-bs-toggle="tab"
+                  data-bs-target="#analytics-tab-2-pane" type="button" role="tab" aria-controls="analytics-tab-2-pane"
+                  aria-selected="false">Found</button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="analytics-tab-3" data-bs-toggle="tab"
+                  data-bs-target="#analytics-tab-3-pane" type="button" role="tab" aria-controls="analytics-tab-3-pane"
+                  aria-selected="false">Lost</button>
+              </li>
+            </ul>
+          </div>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="analytics-tab-1-pane" role="tabpanel"
+              aria-labelledby="analytics-tab-1" tabindex="0">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                      <div class="avtar avtar-s border"> AI </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <div class="row g-1">
+                        <div class="col-6">
+                          <h6 class="mb-0">Apple Inc.</h6>
+                          <p class="text-muted mb-0"><small>#ABLE-PRO-T00232</small></p>
+                        </div>
+                        <div class="col-6 text-end">
+                          <h6 class="mb-1">$210,000</h6>
+                          <p class="text-danger mb-0"><i class="ti ti-arrow-down-left"></i> 10.6%</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                      <div class="avtar avtar-s border" data-bs-toggle="tooltip" data-bs-title="10,000 Tracks">
+                        <span>SM</span></div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <div class="row g-1">
+                        <div class="col-6">
+                          <h6 class="mb-0">Spotify Music</h6>
+                          <p class="text-muted mb-0"><small>#ABLE-PRO-T10232</small></p>
+                        </div>
+                        <div class="col-6 text-end">
+                          <h6 class="mb-1">- 10,000</h6>
+                          <p class="text-success mb-0"><i class="ti ti-arrow-up-right"></i> 30.6%</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                      <div class="avtar avtar-s border bg-light-primary" data-bs-toggle="tooltip"
+                        data-bs-title="143 Posts"><span>MD</span>
+                      </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <div class="row g-1">
+                        <div class="col-6">
+                          <h6 class="mb-0">Medium</h6>
+                          <p class="text-muted mb-0"><small>06:30 pm</small></p>
+                        </div>
+                        <div class="col-6 text-end">
+                          <h6 class="mb-1">-26</h6>
+                          <p class="text-warning mb-0"><i class="ti ti-arrows-left-right"></i> 5%</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                      <div class="avtar avtar-s border" data-bs-toggle="tooltip" data-bs-title="143 Posts">
+                        <span>U</span> </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <div class="row g-1">
+                        <div class="col-6">
+                          <h6 class="mb-0">Uber</h6>
+                          <p class="text-muted mb-0"><small>08:40 pm</small></p>
+                        </div>
+                        <div class="col-6 text-end">
+                          <h6 class="mb-1">+210,000</h6>
+                          <p class="text-success mb-0"><i class="ti ti-arrow-up-right"></i> 10.6%</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                      <div class="avtar avtar-s border bg-light-warning" data-bs-toggle="tooltip"
+                        data-bs-title="143 Posts"><span>OC</span>
+                      </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <div class="row g-1">
+                        <div class="col-6">
+                          <h6 class="mb-0">Ola Cabs</h6>
+                          <p class="text-muted mb-0"><small>07:40 pm</small></p>
+                        </div>
+                        <div class="col-6 text-end">
+                          <h6 class="mb-1">+210,000</h6>
+                          <p class="text-success mb-0"><i class="ti ti-arrow-up-right"></i> 10.6%</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
               </ul>
             </div>
-            <div class="col-md-12">
-              <div class="page-header-title">
-                <h2 class="mb-0">Home</h2>
+            <div class="tab-pane fade" id="analytics-tab-2-pane" role="tabpanel" aria-labelledby="analytics-tab-2"
+              tabindex="0">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                      <div class="avtar avtar-s border" data-bs-toggle="tooltip" data-bs-title="143 Posts">
+                        <span>U</span> </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <div class="row g-1">
+                        <div class="col-6">
+                          <h6 class="mb-0">Uber</h6>
+                          <p class="text-muted mb-0"><small>08:40 pm</small></p>
+                        </div>
+                        <div class="col-6 text-end">
+                          <h6 class="mb-1">+210,000</h6>
+                          <p class="text-success mb-0"><i class="ti ti-arrow-up-right"></i> 10.6%</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                      <div class="avtar avtar-s border bg-light-warning" data-bs-toggle="tooltip"
+                        data-bs-title="143 Posts"><span>OC</span>
+                      </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <div class="row g-1">
+                        <div class="col-6">
+                          <h6 class="mb-0">Ola Cabs</h6>
+                          <p class="text-muted mb-0"><small>07:40 pm</small></p>
+                        </div>
+                        <div class="col-6 text-end">
+                          <h6 class="mb-1">+210,000</h6>
+                          <p class="text-success mb-0"><i class="ti ti-arrow-up-right"></i> 10.6%</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                      <div class="avtar avtar-s border"> AI </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <div class="row g-1">
+                        <div class="col-6">
+                          <h6 class="mb-0">Apple Inc.</h6>
+                          <p class="text-muted mb-0"><small>#ABLE-PRO-T00232</small></p>
+                        </div>
+                        <div class="col-6 text-end">
+                          <h6 class="mb-1">$210,000</h6>
+                          <p class="text-danger mb-0"><i class="ti ti-arrow-down-left"></i> 10.6%</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                      <div class="avtar avtar-s border" data-bs-toggle="tooltip" data-bs-title="10,000 Tracks">
+                        <span>SM</span></div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <div class="row g-1">
+                        <div class="col-6">
+                          <h6 class="mb-0">Spotify Music</h6>
+                          <p class="text-muted mb-0"><small>#ABLE-PRO-T10232</small></p>
+                        </div>
+                        <div class="col-6 text-end">
+                          <h6 class="mb-1">- 10,000</h6>
+                          <p class="text-success mb-0"><i class="ti ti-arrow-up-right"></i> 30.6%</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                      <div class="avtar avtar-s border bg-light-primary" data-bs-toggle="tooltip"
+                        data-bs-title="143 Posts"><span>MD</span>
+                      </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <div class="row g-1">
+                        <div class="col-6">
+                          <h6 class="mb-0">Medium</h6>
+                          <p class="text-muted mb-0"><small>06:30 pm</small></p>
+                        </div>
+                        <div class="col-6 text-end">
+                          <h6 class="mb-1">-26</h6>
+                          <p class="text-warning mb-0"><i class="ti ti-arrows-left-right"></i> 5%</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="tab-pane fade" id="analytics-tab-3-pane" role="tabpanel" aria-labelledby="analytics-tab-3"
+              tabindex="0">
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                      <div class="avtar avtar-s border" data-bs-toggle="tooltip" data-bs-title="10,000 Tracks">
+                        <span>SM</span></div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <div class="row g-1">
+                        <div class="col-6">
+                          <h6 class="mb-0">Spotify Music</h6>
+                          <p class="text-muted mb-0"><small>#ABLE-PRO-T10232</small></p>
+                        </div>
+                        <div class="col-6 text-end">
+                          <h6 class="mb-1">- 10,000</h6>
+                          <p class="text-success mb-0"><i class="ti ti-arrow-up-right"></i> 30.6%</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                      <div class="avtar avtar-s border bg-light-primary" data-bs-toggle="tooltip"
+                        data-bs-title="143 Posts"><span>MD</span>
+                      </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <div class="row g-1">
+                        <div class="col-6">
+                          <h6 class="mb-0">Medium</h6>
+                          <p class="text-muted mb-0"><small>06:30 pm</small></p>
+                        </div>
+                        <div class="col-6 text-end">
+                          <h6 class="mb-1">-26</h6>
+                          <p class="text-warning mb-0"><i class="ti ti-arrows-left-right"></i> 5%</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                      <div class="avtar avtar-s border" data-bs-toggle="tooltip" data-bs-title="143 Posts">
+                        <span>U</span> </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <div class="row g-1">
+                        <div class="col-6">
+                          <h6 class="mb-0">Uber</h6>
+                          <p class="text-muted mb-0"><small>08:40 pm</small></p>
+                        </div>
+                        <div class="col-6 text-end">
+                          <h6 class="mb-1">+210,000</h6>
+                          <p class="text-success mb-0"><i class="ti ti-arrow-up-right"></i> 10.6%</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                      <div class="avtar avtar-s border"> AI </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <div class="row g-1">
+                        <div class="col-6">
+                          <h6 class="mb-0">Apple Inc.</h6>
+                          <p class="text-muted mb-0"><small>#ABLE-PRO-T00232</small></p>
+                        </div>
+                        <div class="col-6 text-end">
+                          <h6 class="mb-1">$210,000</h6>
+                          <p class="text-danger mb-0"><i class="ti ti-arrow-down-left"></i> 10.6%</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                      <div class="avtar avtar-s border bg-light-warning" data-bs-toggle="tooltip"
+                        data-bs-title="143 Posts"><span>OC</span>
+                      </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                      <div class="row g-1">
+                        <div class="col-6">
+                          <h6 class="mb-0">Ola Cabs</h6>
+                          <p class="text-muted mb-0"><small>07:40 pm</small></p>
+                        </div>
+                        <div class="col-6 text-end">
+                          <h6 class="mb-1">+210,000</h6>
+                          <p class="text-success mb-0"><i class="ti ti-arrow-up-right"></i> 10.6%</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="row g-2">
+              <div class="col-md-6">
+                <div class="d-grid">
+                  <button class="btn btn-outline-secondary d-grid"><span class="text-truncate w-100">View all
+                      Items</span></button>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="d-grid">
+                  <button class="btn btn-primary d-grid"><span class="text-truncate w-100">View All Claims</span></button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <!-- [ breadcrumb ] end -->
-
-      <!-- [ Main Content ] start -->
-      <div class="row">
-        <div class="col-md-6 col-xl-3">
-          <div class="card social-widget-card bg-primary">
-            <div class="card-body">
-              <h3 class="text-white m-0">{{profiles.count}}</h3>
-              <span class="m-t-10">Users</span>
-              <i class="ti ti-user"></i>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-3">
-          <div class="card social-widget-card bg-info">
-            <div class="card-body">
-              <h3 class="text-white m-0">{{claims.count}}</h3>
-              <span class="m-t-10">Claims</span>
-              <i class="ti ti-versions"></i>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-3">
-          <div class="card social-widget-card bg-dark">
-            <div class="card-body">
-              <h3 class="text-white m-0">{{categories.count}}</h3>
-              <span class="m-t-10">Catergories</span>
-              <i class="ti ti-stack"></i>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-3">
-          <div class="card social-widget-card bg-danger">
-            <div class="card-body">
-              <h3 class="text-white m-0">{{items.count}}</h3>
-              <span class="m-t-10">Items</span>
-              <i class="ti ti-box"></i>
-            </div>
-          </div>
-        </div>
-
-      </div>
-      <!-- [ Main Content ] end -->
     </div>
+
+
+    <!-- [ Main Content ] end -->
   </div>
+</div>
 {% endblock content %}
+{% block script %}
+
+<!-- <script src="{% static 'assets/js/pages/w-chart.js'%}"></script> -->
+{% endblock script %}
