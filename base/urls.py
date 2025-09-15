@@ -25,4 +25,8 @@ urlpatterns = [
     # management views
     path('management/admin-dashboard/', management_views.admin_dashboard, name='admin_dashboard'),
     path('management/categories/', management_views.categories_management, name='categories_management'),
+    path('management/items-posted/', management_views.items_posted, name='items_posted'),
+    path('management/claims/', management_views.claim_management, name='claim_management'),
+    path('management/user-management/', management_views.user_management, name='user_management'),
+    path('management/items-posted/<int:item_id>/', management_views.item_detail, name='item_detail_management'),
 ]

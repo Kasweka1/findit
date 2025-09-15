@@ -1,0 +1,139 @@
+{% extends "dashboard_base.html" %}
+{% load static %}
+
+{% block title %}{{item.title}}{% endblock title %}
+
+{% block content %}
+<div class="pc-container">
+    <div class="pc-content">
+
+    <div class="container">
+        <div class="col-md-6 col-xl-12">
+            <div class="card social-widget-card bg-dark">
+                <div class="card-body">
+                    <h3 class="text-white m-0">{{item.title}}</h3>
+                    <span class="m-t-10">{{item.location}}</span>
+                    <i class="fas fa-box-open"></i>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+                {% if messages %}
+                <div class="mt-3">
+                    {% for message in messages %}
+                    <div 
+                        class="alert 
+                        {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} 
+                        alert-dismissible fade show" 
+                        role="alert"
+                    >
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+
+
+                            <div class="col-md-6">
+                                <div class="sticky-md-top product-sticky">
+                                    <div class="card bg-light rounded shadow-sm">
+                                        <div class="card-body position-relative p-0">
+
+
+                                            <!-- Product Image -->
+                                            <img src="{{item.get_image_url}}"
+                                                class="img-fluid rounded-top w-100 {% if item.is_blurred %}blurred{% endif %} " alt="{{item.title}}"
+                                                  style="height: 600px; object-fit: cover;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="col-md-6">
+                                <span class="badge bg-dark f-14">{{item.post_type}}</span>
+                                <span class="badge bg-dark f-14">{{claim_count}} Claim(s)</span>
+                                <div class="item-details">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h5 class="my-3">Category</h5>
+                                            <h6 class="mt-2 mb-3 f-w-500">{{item.category}}</h6>
+
+                                            <h5 class="my-3">Posted By</h5>
+                                            <a href="{% url 'profile_view' item.owner.user.username  %}"><h6 class="mt-2 mb-3 f-w-500">{{item.owner.user.first_name}} {{item.owner.user.last_name}}</h6></a>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5 class="my-3">Date Posted</h5>
+                                            <h6 class="mt-2 mb-3 f-w-500">{{item.date_reported|date:"d M Y"}}</h6>
+
+                                            <h5 class="my-3">Location</h5>
+                                            <h6 class="mt-2 mb-3 f-w-500">{{item.location}}</h6>
+                                        </div>
+                                    </div>
+                                    
+                                    <h5 class="my-3">Item Description</h5>
+                                    <h6 class="mt-2 mb-3 f-w-500">
+                                        {{item.description}}.
+                                    </h6>
+                                                                        <!-- Claim Modal -->
+                                    <div class="modal fade" id="claimModal" tabindex="-1" aria-labelledby="claimModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <form method="POST" action="{% url 'claim_item' item.id %}">
+                                        {% csrf_token %}
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                            <h5 class="modal-title" id="claimModalLabel">Claim Item</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <p>Please answer the security questions to claim this item:</p>
+                                            <div class="mb-3">
+                                                <label for="security_answer_1" class="form-label">{{ item.question_one }}</label>
+                                                <input type="text" class="form-control" name="security_answer_1" required>
+                                            </div>
+
+                                            {% if item.question_two %}
+                                            <div class="mb-3">
+                                                <label for="security_answer_2" class="form-label">{{ item.question_two }}</label>
+                                                <input type="text" class="form-control" name="security_answer_2" required>
+                                            </div>
+                                            {% endif %}
+                                            </div>
+                                            <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <button type="submit" class="btn btn-primary">Submit Claim</button>
+                                            </div>
+                                        </div>
+                                        </form>
+                                    </div>
+                                    </div>
+
+                         
+
+                                
+                                
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         
+        </div>
+
+    </div>
+    </div></div>
+</section>
+    {% endblock content %}

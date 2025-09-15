@@ -37,3 +37,39 @@ def categories_management(request):
         "categories": categories,
     }
     return render(request, template_pass("management", "categories"), context)
+
+
+def items_posted(request):
+    items = ItemPost.objects.all()
+    
+    context = {
+        "items": items,
+    }
+    return render(request, template_pass("management", "items_posted"), context)
+
+
+def item_detail(request, item_id):
+    item = ItemPost.objects.get(id=item_id)
+    
+    context = {
+        "item": item,
+    }
+    return render(request, template_pass("management", "item_detail"), context)
+
+
+def claim_management(request):
+    claims = ClaimRequest.objects.all()
+    
+    context = {
+        "claims": claims,
+    }
+    return render(request, template_pass("management", "claims_management"), context)
+
+
+def user_management(request):
+    profiles = Profile.objects.all()
+    
+    context = {
+        "profiles": profiles,
+    }
+    return render(request, template_pass("management", "user_management"), context)
