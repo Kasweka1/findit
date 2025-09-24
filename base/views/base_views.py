@@ -13,16 +13,24 @@ def login(request):
         username_or_email = request.POST.get("username").strip()
         password = request.POST.get("password").strip()
 
+        
+        if not username_or_email or not password:
+            messages.error(request, "Please enter both username/email and password.")
+            return render(request, "base/login.html")
+
         try:
-            user_obj = User.objects.get(
-                Q(username=username_or_email) | Q(email=username_or_email)
-            )
+            # Fetch user by username OR email
+            user_obj = User.objects.get(Q(username=username_or_email) | Q(email=username_or_email))
             username = user_obj.username
         except User.DoesNotExist:
-            username = username_or_email
+            username = None
 
-        user = authenticate(request, username=username, password=password)
+        if username:
+            user = authenticate(request, username=username, password=password)
+        else:
+            user = None
 
+        print(user)
         if user is not None:
             auth_login(request, user)
             

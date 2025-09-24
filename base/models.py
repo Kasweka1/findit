@@ -57,7 +57,8 @@ class ItemPost(models.Model):
 class ClaimRequest(models.Model):
     STATUS_CHOICES = [
         ("pending", "Pending"),
-        ("accepted", "Accepted"),
+        ("owner_accepted", "Accepted By Owner"),
+        ("admin_accepted", "Accepted By Admin"),
         ("rejected", "Rejected"),
     ]
 
