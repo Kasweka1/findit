@@ -18,8 +18,8 @@
                   class="user-avtar wid-45 rounded-circle" />
               </div>
               <div class="flex-grow-1 ms-3 me-2">
-                <h6 class="mb-0">Jonh Smith</h6>
-                <small>Administrator</small>
+                 <h6 class="mb-0">{{user.first_name}} {{user.last_name}}</h6>
+                <small>{{user.username}}</small>
               </div>
               <a class="btn btn-icon btn-link-secondary avtar-s" data-bs-toggle="collapse" href="#pc_sidebar_userlink">
                 <svg class="pc-icon">
@@ -29,7 +29,7 @@
             </div>
             <div class="collapse pc-user-links" id="pc_sidebar_userlink">
               <div class="pt-3">
-                <a href="#!">
+                <a href="{% url 'logout' %}">
                   <i class="ti ti-user"></i>
                   <span>My Account</span>
                 </a>

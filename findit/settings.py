@@ -83,7 +83,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'findit',
         'USER': 'root',
-        'PASSWORD':'',
+        'PASSWORD':'wababa12',
         'HOST': 'localhost',
         'PORT': '3306',
     }

@@ -195,7 +195,6 @@ def post_item(request):
         )
         item_post.save()
 
-        messages.success(request, "Your item has been posted successfully!")
         return redirect("lost_found")
     context = {
         "categories": categories,
