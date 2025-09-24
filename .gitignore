@@ -162,9 +162,11 @@ signtures/
 
 # Ignore everything in media/
 media/*
-
+media/items/*
 # But keep the subdirectories
-!media/items/
+
+
+!media/items/.gitkeep
 
 # Allow .gitkeep files in those folders
 !media/signature/.gitkeep
